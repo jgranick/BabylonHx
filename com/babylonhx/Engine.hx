@@ -140,8 +140,8 @@ typedef BufferPointer = {
 	public var scenes:Array<Scene> = [];
 
 	// Private Members
-	#if (js || purejs)
-	public var Gl:js.html.webgl.RenderingContext;
+	#if (js || purejs || lime)
+	public var Gl:GLRenderingContext;
 	#else
 	public var Gl = com.babylonhx.utils.GL;
 	#end
@@ -251,7 +251,9 @@ typedef BufferPointer = {
 			options.preserveDrawingBuffer = false;
 		}
 		
-		#if (purejs || js)
+		#if lime
+		Gl = GL.context;
+		#elseif (purejs || js)
 			#if lime
 			if(!Std.is(this._renderingCanvas, js.html.CanvasElement))
 				this._renderingCanvas = Browser.document.getElementsByTagName('canvas')[0];
@@ -341,7 +343,7 @@ typedef BufferPointer = {
 			this._caps.uintIndices = Gl.getExtension("OES_element_index_uint") != null;
 			this._caps.fragmentDepthSupported = Gl.getExtension("EXT_frag_depth") != null;
 			this._caps.highPrecisionShaderSupported = true;
-			if (Gl.getShaderPrecisionFormat != null) {
+			if (Reflect.hasField (Gl, "getShaderPrecisionFormat")) {
 				var highp = Gl.getShaderPrecisionFormat(GL.FRAGMENT_SHADER, GL.HIGH_FLOAT);
 				this._caps.highPrecisionShaderSupported = highp != null && highp.precision != 0;
 			}
@@ -450,7 +452,7 @@ typedef BufferPointer = {
 		trace(msg);
 	}
 	
-	public static function compileShader(#if (js || purejs) Gl:js.html.webgl.RenderingContext, #end source:String, type:String, defines:String):GLShader {
+	public static function compileShader(#if (js || purejs || lime) Gl:GLRenderingContext, #end source:String, type:String, defines:String):GLShader {
 		var shader:GLShader = Gl.createShader(type == "vertex" ? GL.VERTEX_SHADER : GL.FRAGMENT_SHADER);
 		
 		Gl.shaderSource(shader, (defines != null ? defines + "\n" : "") + source);
@@ -1416,9 +1418,9 @@ typedef BufferPointer = {
 	}
 
 	inline public function applyStates() {
-		this._depthCullingState.apply(#if (js || purejs) Gl #end);
-		this._stencilState.apply(#if (js || purejs) Gl #end);
-		this._alphaState.apply(#if (js || purejs) Gl #end);
+		this._depthCullingState.apply(#if (js || purejs || lime) Gl #end);
+		this._stencilState.apply(#if (js || purejs || lime) Gl #end);
+		this._alphaState.apply(#if (js || purejs || lime) Gl #end);
 	}
 
 	public function draw(useTriangles:Bool, indexStart:Int, indexCount:Int, instancesCount:Int = 0) {
@@ -1519,8 +1521,8 @@ typedef BufferPointer = {
 	}
 
 	public function createShaderProgram(vertexCode:String, fragmentCode:String, defines:String):GLProgram {
-		var vertexShader = compileShader(#if (js || purejs) Gl, #end vertexCode, "vertex", defines);
-		var fragmentShader = compileShader(#if (js || purejs) Gl, #end fragmentCode, "fragment", defines);
+		var vertexShader = compileShader(#if (js || purejs || lime) Gl, #end vertexCode, "vertex", defines);
+		var fragmentShader = compileShader(#if (js || purejs || lime) Gl, #end fragmentCode, "fragment", defines);
 		
 		var shaderProgram = Gl.createProgram();
 		Gl.attachShader(shaderProgram, vertexShader);

@@ -120,8 +120,8 @@ class Stage extends DisplayObjectContainer {
 		return _engine;
 	}
 
-    #if (js || purejs)
-    public var Gl:js.html.webgl.RenderingContext;
+    #if (js || purejs || lime)
+    public var Gl:GLRenderingContext;
     #else
     public var Gl = com.babylonhx.utils.GL;
     #end
@@ -130,7 +130,7 @@ class Stage extends DisplayObjectContainer {
 		super();
 		
 		_engine = scene.getEngine();
-        #if (js || purejs)
+        #if (js || purejs || lime)
         Gl = @:privateAccess _engine.Gl;
         #end
 

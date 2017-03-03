@@ -138,7 +138,7 @@ import com.babylonhx.utils.GL in Gl;
 		this._isZOffsetDirty = false;
 	}
 
-	public function apply(#if (js || purejs) Gl:js.html.webgl.RenderingContext #end) {
+	public function apply(#if (js || purejs || lime) Gl:GLRenderingContext #end) {
 		if (this.isDirty) {
 			// Cull
 			if (this._isCullDirty) {

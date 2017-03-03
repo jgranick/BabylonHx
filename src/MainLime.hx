@@ -7,7 +7,7 @@ package;
 import haxe.Timer;
 import lime.app.Application;
 import lime.Assets;
-import lime.audio.AudioSource;
+import lime.media.AudioSource;
 import lime.ui.KeyCode;
 import lime.ui.KeyModifier;
 import lime.graphics.RenderContext;

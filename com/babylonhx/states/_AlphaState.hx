@@ -70,7 +70,7 @@ import com.babylonhx.utils.GL in Gl;
 		this._isBlendFunctionParametersDirty = false;
 	}
 
-	public function apply(#if (js || purejs) Gl:js.html.webgl.RenderingContext #end) {
+	public function apply(#if (js || purejs || lime) Gl:GLRenderingContext #end) {
 		
 		if (!this.isDirty) {
 			return;
