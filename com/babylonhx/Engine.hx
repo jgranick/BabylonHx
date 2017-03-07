@@ -623,7 +623,7 @@ typedef BufferPointer = {
 			return this._currentRenderTarget._width;
 		}
 		
-		#if (js || purejs)
+		#if ((js || purejs) && !lime)
 		return this._renderingCanvas.width;
 		#else
 		return this.width;
@@ -635,7 +635,7 @@ typedef BufferPointer = {
 			return this._currentRenderTarget._height;
 		}
 		
-		#if (js || purejs)
+		#if ((js || purejs) && !lime)
 		return this._renderingCanvas.height;
 		#else
 		return this.height;
