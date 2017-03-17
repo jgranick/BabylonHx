@@ -251,7 +251,7 @@ typedef BufferPointer = {
 			options.preserveDrawingBuffer = false;
 		}
 		
-		#if lime
+		#if (lime)
 		Gl = GL.context;
 		#elseif (purejs || js)
 			#if lime
@@ -315,9 +315,9 @@ typedef BufferPointer = {
 		this._glVendor = Gl.getParameter(GL.VENDOR);
 		this._glRenderer = Gl.getParameter(GL.RENDERER);
 		this._glExtensions = Gl.getSupportedExtensions();
-		//for (ext in this._glExtensions) {
-			//trace(ext);
-		//}
+		/*for (ext in this._glExtensions) {
+			trace(ext);
+		}*/
 		//trace(this._glExtensions);
 		
 		#if (!snow || (js && snow))
@@ -623,7 +623,7 @@ typedef BufferPointer = {
 			return this._currentRenderTarget._width;
 		}
 		
-		#if (js || purejs)
+		#if ((js || purejs) && !lime)
 		return this._renderingCanvas.width;
 		#else
 		return this.width;
@@ -635,7 +635,7 @@ typedef BufferPointer = {
 			return this._currentRenderTarget._height;
 		}
 		
-		#if (js || purejs)
+		#if ((js || purejs) && !lime)
 		return this._renderingCanvas.height;
 		#else
 		return this.height;
@@ -3001,7 +3001,7 @@ typedef BufferPointer = {
 		Gl.drawArrays(GL.TRIANGLES, 0, 6);
 		
 		var pixel = new UInt8Array(4);
-		Gl.readPixels(0, 0, 1, 1, GL.RGBA, GL.UNSIGNED_BYTE, pixel);
+		Gl.readPixels(0, 0, 1, 1, GL.RGBA, GL.UNSIGNED_BYTE, pixel);		
 		if (pixel[0] != 0 ||
 			pixel[1] < 248 ||
 			pixel[2] < 248 ||
