@@ -1336,11 +1336,7 @@ typedef BufferPointer = {
 		buffer.references--;
 		
 		if (buffer.references == 0) {
-			#if lime
-			buffer.buffer.deleteBuffer();
-			#else
 			Gl.deleteBuffer(buffer.buffer);
-			#end
 			return true;
 		}
 		
@@ -1359,11 +1355,7 @@ typedef BufferPointer = {
 	}
 
 	public function deleteInstancesBuffer(buffer:WebGLBuffer) {
-		#if lime
-		buffer.buffer.deleteBuffer();
-		#else
 		Gl.deleteBuffer(buffer.buffer);
-		#end
 		buffer = null;
 	}
 	
@@ -2980,11 +2972,7 @@ typedef BufferPointer = {
 		var cleanup = function() {
 			Gl.deleteProgram(program);
 			Gl.disableVertexAttribArray(positionLocation);
-			#if lime
-			positionBuffer.deleteBuffer();
-			#else
 			Gl.deleteBuffer(positionBuffer);
-			#end
 			Gl.deleteFramebuffer(fb);
 			Gl.deleteTexture(whiteTex);
 			Gl.deleteTexture(tex);
