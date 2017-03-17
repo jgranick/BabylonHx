@@ -251,7 +251,7 @@ typedef BufferPointer = {
 			options.preserveDrawingBuffer = false;
 		}
 		
-		#if lime
+		#if (lime)
 		Gl = GL.context;
 		#elseif (purejs || js)
 			#if lime
@@ -315,9 +315,9 @@ typedef BufferPointer = {
 		this._glVendor = Gl.getParameter(GL.VENDOR);
 		this._glRenderer = Gl.getParameter(GL.RENDERER);
 		this._glExtensions = Gl.getSupportedExtensions();
-		//for (ext in this._glExtensions) {
-			//trace(ext);
-		//}
+		/*for (ext in this._glExtensions) {
+			trace(ext);
+		}*/
 		//trace(this._glExtensions);
 		
 		#if (!snow || (js && snow))
@@ -1336,7 +1336,11 @@ typedef BufferPointer = {
 		buffer.references--;
 		
 		if (buffer.references == 0) {
+			#if lime
+			buffer.buffer.deleteBuffer();
+			#else
 			Gl.deleteBuffer(buffer.buffer);
+			#end
 			return true;
 		}
 		
@@ -1355,7 +1359,11 @@ typedef BufferPointer = {
 	}
 
 	public function deleteInstancesBuffer(buffer:WebGLBuffer) {
+		#if lime
+		buffer.buffer.deleteBuffer();
+		#else
 		Gl.deleteBuffer(buffer.buffer);
+		#end
 		buffer = null;
 	}
 	
@@ -2972,7 +2980,11 @@ typedef BufferPointer = {
 		var cleanup = function() {
 			Gl.deleteProgram(program);
 			Gl.disableVertexAttribArray(positionLocation);
+			#if lime
+			positionBuffer.deleteBuffer();
+			#else
 			Gl.deleteBuffer(positionBuffer);
+			#end
 			Gl.deleteFramebuffer(fb);
 			Gl.deleteTexture(whiteTex);
 			Gl.deleteTexture(tex);
@@ -3001,7 +3013,7 @@ typedef BufferPointer = {
 		Gl.drawArrays(GL.TRIANGLES, 0, 6);
 		
 		var pixel = new UInt8Array(4);
-		Gl.readPixels(0, 0, 1, 1, GL.RGBA, GL.UNSIGNED_BYTE, pixel);
+		Gl.readPixels(0, 0, 1, 1, GL.RGBA, GL.UNSIGNED_BYTE, pixel);		
 		if (pixel[0] != 0 ||
 			pixel[1] < 248 ||
 			pixel[2] < 248 ||
